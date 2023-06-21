@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1> Spotify music recommendations app </h1>
+    <form method="post">
+        <label for="playlist link">Playlist Link</label>
+        <br>
+        <input type="text" name="playlist link"
+               placeholder="paste playlist link here"
+               value="{{request.form['playlist link']}}">
+        <br>
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html>
