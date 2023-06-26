@@ -10,9 +10,17 @@
         <label for="playlist link">Playlist Link</label>
         <br>
         <input type="text" name="playlist link"
-               placeholder="paste playlist link here"
+               placeholder="enter playlist link here"
                value="{{request.form['playlist link']}}">
         <br>
+
+        <label for="playlist name">Playlist Name</label>
+        <br>
+        <input type="text" name="playlist name"
+               placeholder="enter playlist name here"
+               value="{{request.form['playlist name']}}">
+        <br>
+
         <button type="submit">submit</button>
     </form>
 </body>

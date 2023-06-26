@@ -34,13 +34,16 @@ def home():
 
     if request.method == "POST":
         playlist_link = request.form['playlist link']
+        playlist_name = request.form['playlist name']
+
         playlist_uri = playlist_link.split('/')[-1].split('?')[0]
-        return redirect(url_for('recommend', playlist_uri=playlist_uri))
+
+        return redirect(url_for('recommend', playlist_uri=playlist_uri, playlist_name=playlist_name))
     return render_template('home.html')
 
 
-@app.route('/recommend/<string:playlist_uri>')
-def recommend(playlist_uri):
+@app.route('/recommend/<string:playlist_uri>/<string:playlist_name>')
+def recommend(playlist_uri, playlist_name):
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
     auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler, scope=scope)
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
@@ -50,10 +53,17 @@ def recommend(playlist_uri):
     database_df = pd.read_csv(os.path.join(data_dir, "database_df.csv"))
     features_df = pd.read_csv(os.path.join(data_dir, "final_features.csv"))
     rec_df = get_recommendations.recommend(playlist_df, features_df, database_df)
+
     track_names = rec_df['track_name'].tolist()
     track_ids = rec_df['id']
 
-    return render_template('recommend.html', track_names=track_names, track_ids=track_ids)
+    sp = spotipy.Spotify(auth_manager=auth_manager)
+    user_id = sp.me()['id']
+    playlist_info = sp.user_playlist_create(user=user_id, name=playlist_name)
+    playlist_id = playlist_info['id']
+    sp.playlist_add_items(playlist_id=playlist_id, items=track_ids)
+
+    return render_template('recommend.html', track_names=track_names, track_ids=track_ids, playlist_id=playlist_id)
 
 
 app.run(debug=True, port=8080)
