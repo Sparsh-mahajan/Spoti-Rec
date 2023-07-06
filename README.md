@@ -9,7 +9,7 @@
     
 ## How to set up the project:
 1. ```git clone https://github.com/Sparsh-mahajan/Spoti-Rec.git```
-2. open a terminal inside the project directory and in the terminal and type
+2. open a terminal inside the project directory and in the terminal, type
    - ```virtualenv venv```
    - ```Source venv/bin/activate```
    - ```pip install -r requirements.txt```
