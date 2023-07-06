@@ -11,7 +11,7 @@
 1. ```git clone https://github.com/Sparsh-mahajan/Spoti-Rec.git```
 2. open a terminal inside the project directory and in the terminal, type
    - ```virtualenv venv```
-   - ```Source venv/bin/activate```
+   - ```venv\Scripts\activate```
    - ```pip install -r requirements.txt```
 
 ## To do:
