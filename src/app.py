@@ -6,16 +6,17 @@ import os
 import get_features
 import get_recommendations
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(64)
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_FILE_DIR'] = './.flask_session/'
-Session(app)
-
 scope = "playlist-modify-public"
 src_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.dirname(os.path.abspath(src_dir))
 data_dir = os.path.join(project_dir, "data")
+
+
+app = Flask(__name__, static_folder=os.path.join(src_dir, "resources"))
+app.config['SECRET_KEY'] = os.urandom(64)
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_FILE_DIR'] = './.flask_session/'
+Session(app)
 
 
 @app.route('/', methods=('GET', 'POST'))
@@ -30,7 +31,7 @@ def home():
 
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         auth_url = auth_manager.get_authorize_url()
-        return f'<h2><a href="{auth_url}">Sign in</a></h2>'
+        return render_template('login.html', auth_url=auth_url)
 
     if request.method == "POST":
         playlist_link = request.form['playlist link']
@@ -59,8 +60,7 @@ def recommend(playlist_uri, playlist_name):
 
     sp = spotipy.Spotify(auth_manager=auth_manager)
     user_id = sp.me()['id']
-    playlist_info = sp.user_playlist_create(user=user_id, name=playlist_name)
-    playlist_id = playlist_info['id']
+    playlist_id = sp.user_playlist_create(user=user_id, name=playlist_name)['id']
     sp.playlist_add_items(playlist_id=playlist_id, items=track_ids)
 
     return render_template('recommend.html', track_names=track_names, track_ids=track_ids, playlist_id=playlist_id)
