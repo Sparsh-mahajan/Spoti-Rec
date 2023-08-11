@@ -3,25 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #595958;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: rgb(128, 199, 81);
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            /* margin-bottom: 6px; */
+            color: rgb(30, 28, 28);
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: rgb(203, 249, 172);
+            border: 1px solid rgb(64, 255, 0);
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1> Spotify music recommendations app </h1>
+    <h1 style="color:white;">Spotify Music Recommendations App</h1>
     <form method="post">
-        <label for="playlist link">Playlist Link</label>
+        <label for="playlist-link">Playlist Link</label>
         <br>
-        <input type="text" name="playlist link"
-               placeholder="enter playlist link here"
-               value="{{request.form['playlist link']}}">
-        <br>
-
-        <label for="playlist name">Playlist Name</label>
-        <br>
-        <input type="text" name="playlist name"
-               placeholder="enter playlist name here"
-               value="{{request.form['playlist name']}}">
+        <input type="text" name="playlist-link"
+               placeholder="Enter playlist link here"
+               value="{{request.form['playlist-link']}}">
         <br>
 
-        <button type="submit">submit</button>
+        <label for="playlist-name">Playlist Name</label>
+        <br>
+        <input type="text" name="playlist-name"
+               placeholder="Enter playlist name here"
+               value="{{request.form['playlist-name']}}">
+        <br>
+
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>
