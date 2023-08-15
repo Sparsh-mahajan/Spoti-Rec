@@ -9,15 +9,6 @@ import sys
 sys.path.append('..')
 import config
 
-
-
-# os.environ['SPOTIPY_CLIENT_ID']='9aa01b97021549f29427a140483c7759'
-# os.environ['SPOTIPY_CLIENT_SECRET']='36b5fd231e5249ad9d4a4205451d87ce'
-# os.environ['SPOTIPY_REDIRECT_URI']='http://127.0.0.1:8080'
-
-
-
-
 scope = "playlist-modify-public"
 src_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.dirname(os.path.abspath(src_dir))
@@ -74,7 +65,7 @@ def recommend(playlist_uri, playlist_name):
     user_id = sp.me()['id']
     playlist_id = sp.user_playlist_create(user=user_id, name=playlist_name)['id']
     sp.playlist_add_items(playlist_id=playlist_id, items=track_ids)
-
+    
     return render_template('recommend.html', track_names=track_names, track_ids=track_ids, playlist_id=playlist_id)
 
 if __name__ == '__main__':
