@@ -5,30 +5,83 @@
     <title>Title</title>
     <style>
         body {
-            background-color: black;
+            background-color: #000000;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        p{
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        iframe {
+            width: 800px;
+            height: 600px;
+            margin: 17px auto 50px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .go-back {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 50px;
+            background-color: #ffffff59;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .go-back a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+        .logo_pic {
+            width: 80px;
+            height: 80px;
+        }
+        .logo_heading {
+            width: 500px;
+            height: 80px;
         }
     </style>
 </head>
 <body>
-    <h1>recommendations </h1>
-    <div class="container text-center">
-            <p>Listen to your new playlist </p>
-        </div>
+    <!-- <img src="../resources/logo.png" class="logo_pic"/>
+    <img src="../resources/text_logo.png" class="logo_heading"/> -->
+    <h1>Recommendations</h1>
+    <div class="container">
+        <p>Listen to your new playlist</p>
+    </div>
 
-        <div class="text-center" style="text-align: center;margin: 17px 20% 50px;">
-            <iframe src="https://open.spotify.com/embed/playlist/{{ playlist_id }}" width="800" height="600"
-                    frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-        </div>
+    <div class="text-center">
+        <iframe src="https://open.spotify.com/embed/playlist/{{ playlist_id }}" frameborder="0"
+                allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
 
-        <div class="text-center" style="padding-top: 47px;">
-            <a href="/">Go back home</a>
-        </div>
+    <button class="go-back">
+        <a href="/">Go back home</a>
+    </button>
 
-        <script>
-            window.onSpotifyWebPlaybackSDKReady = () => {
-                // You can now initialize Spotify.Player and use the SDK
-            };
-        </script>
-        <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            // You can now initialize Spotify.Player and use the SDK
+        };
+    </script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </body>
 </html>
