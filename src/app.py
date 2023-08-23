@@ -14,6 +14,8 @@ src_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.dirname(os.path.abspath(src_dir))
 data_dir = os.path.join(project_dir, "data")
 
+database_df = pd.read_csv(os.path.join(data_dir, "database_df.csv"))
+features_df = pd.read_csv(os.path.join(data_dir, "final_features.csv"))
 
 app = Flask(__name__, static_folder=os.path.join(src_dir, "resources"))
 app.config['SECRET_KEY'] = os.urandom(64)
@@ -54,8 +56,6 @@ def recommend(playlist_uri, playlist_name):
         return redirect('/')
 
     playlist_df = get_features.get_playlist_features(playlist_uri)
-    database_df = pd.read_csv(os.path.join(data_dir, "database_df.csv"))
-    features_df = pd.read_csv(os.path.join(data_dir, "final_features.csv"))
     rec_df = get_recommendations.recommend(playlist_df, features_df, database_df)
 
     track_names = rec_df['track_name'].tolist()
