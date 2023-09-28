@@ -5,9 +5,6 @@ import pandas as pd
 import os
 import get_features
 import get_recommendations
-import sys
-sys.path.append('..')
-import config
 
 scope = "playlist-modify-public"
 src_dir = os.path.dirname(os.path.abspath(__file__))
@@ -27,10 +24,9 @@ Session(app)
 @app.route('/', methods=('GET', 'POST'))
 def home():
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = spotipy.oauth2.SpotifyOAuth(client_id='9aa01b97021549f29427a140483c7759',client_secret='36b5fd231e5249ad9d4a4205451d87ce',redirect_uri='http://127.0.0.1:8080',cache_handler=cache_handler, scope=scope, show_dialog=True)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler, scope=scope, show_dialog=True)
 
     if request.args.get("code"):
-        # Step 2. Being redirected from Spotify auth page
         auth_manager.get_access_token(request.args.get("code"))
         return redirect('/')
 
@@ -51,7 +47,7 @@ def home():
 @app.route('/recommend/<string:playlist_uri>/<string:playlist_name>')
 def recommend(playlist_uri, playlist_name):
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = spotipy.oauth2.SpotifyOAuth(client_id='9aa01b97021549f29427a140483c7759',client_secret='36b5fd231e5249ad9d4a4205451d87ce',redirect_uri='http://127.0.0.1:8080',cache_handler=cache_handler, scope=scope)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler, scope=scope)
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         return redirect('/')
 
@@ -67,6 +63,7 @@ def recommend(playlist_uri, playlist_name):
     sp.playlist_add_items(playlist_id=playlist_id, items=track_ids)
     
     return render_template('recommend.html', track_names=track_names, track_ids=track_ids, playlist_id=playlist_id)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
