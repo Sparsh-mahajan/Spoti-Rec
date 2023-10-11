@@ -14,9 +14,11 @@
             align-items: center;
             justify-content: center;
         }
-        p{
+
+        p {
             color: white;
         }
+
         h1 {
             text-align: center;
             margin-top: 40px;
@@ -50,10 +52,28 @@
             text-decoration: none;
             color: #ffffff;
         }
+
+        .logout {
+            background-color: #ff0000;
+            border: none;
+            height:45px;
+            width: 100px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .logout a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+
         .logo_pic {
             width: 80px;
             height: 80px;
         }
+
         .logo_heading {
             width: 500px;
             height: 80px;
@@ -75,6 +95,10 @@
 
     <button class="go-back">
         <a href="/">Go back home</a>
+    </button>
+
+    <button class="logout">
+        <a href="/logout">logout</a>
     </button>
 
     <script>

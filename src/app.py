@@ -1,5 +1,5 @@
 from flask import Flask, session, request, redirect, render_template, url_for
-from flask_session import Session
+# from flask_session import Session
 import spotipy
 import pandas as pd
 import os
@@ -16,9 +16,7 @@ features_df = pd.read_csv(os.path.join(data_dir, "final_features.csv"))
 
 app = Flask(__name__, static_folder=os.path.join(src_dir, "resources"))
 app.config['SECRET_KEY'] = os.urandom(64)
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_FILE_DIR'] = './.flask_session/'
-Session(app)
+# Session(app)
 
 
 @app.route('/', methods=('GET', 'POST'))
@@ -27,7 +25,7 @@ def home():
     auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler, scope=scope, show_dialog=True)
 
     if request.args.get("code"):
-        auth_manager.get_access_token(request.args.get("code"))
+        auth_manager.get_access_token(request.args.get("code"), as_dict=False)
         return redirect('/')
 
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
@@ -65,5 +63,15 @@ def recommend(playlist_uri, playlist_name):
     return render_template('recommend.html', track_names=track_names, track_ids=track_ids, playlist_id=playlist_id)
 
 
+@app.route('/logout')
+def logout():
+    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler, scope=scope)
+    if not auth_manager.validate_token(cache_handler.get_cached_token()):
+        return redirect('/')
+    session.clear()
+    return redirect('/')
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 8080)), threaded=True)

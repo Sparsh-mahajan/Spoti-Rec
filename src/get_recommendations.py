@@ -9,8 +9,8 @@ def generate_playlist_feature_vec(playlist_df, features_df):
 
 
 def generate_recommendation(playlist_feature_vec, non_playlist_features, database_df):
-    non_playlist_df = database_df[database_df["id"].isin(non_playlist_features["id"])]
-    non_playlist_df["similarity_score"] = cosine_similarity(non_playlist_features.drop(columns="id"),
+    non_playlist_df = database_df[database_df["id"].isin(non_playlist_features["id"])].copy()
+    non_playlist_df.loc[:, "similarity_score"] = cosine_similarity(non_playlist_features.drop(columns="id"),
                                                             playlist_feature_vec.values.reshape(1, -1))
     top_40_recommendation = non_playlist_df.sort_values("similarity_score", ascending=False).head(40)
     return top_40_recommendation
