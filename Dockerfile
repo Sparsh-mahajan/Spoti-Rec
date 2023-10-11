@@ -6,9 +6,7 @@ FROM python:3.11-slim
 ENV PYTHONUNBUFFERED True
 
 # environment variables for the app to run
-ENV SPOTIPY_CLIENT_ID="9aa01b97021549f29427a140483c7759"
-ENV SPOTIPY_CLIENT_SECRET="36b5fd231e5249ad9d4a4205451d87ce"
-ENV SPOTIPY_REDIRECT_URI="http://127.0.0.1:8080"
+# hid the env variables
 
 # Copy local code to the container image.
 ENV APP_HOME /app
